@@ -1,0 +1,437 @@
+{
+  "H01": {
+    "id": "H01",
+    "difficulty": "hard",
+    "name": "Stone Merge with Alternating Cost",
+    "description": "n piles. Merge adjacent: cost=a*b if even merges done, else a+b. Min total cost.",
+    "constraints": "2<=n<=100; 1<=stones[i]<=100",
+    "tests": [
+      {
+        "input": "3\n1 2 3",
+        "output": "8"
+      },
+      {
+        "input": "4\n1 1 1 1",
+        "output": "5"
+      },
+      {
+        "input": "2\n5 3",
+        "output": "15"
+      },
+      {
+        "input": "2\n1 1",
+        "output": "1"
+      },
+      {
+        "input": "4\n2 3 1 4",
+        "output": "26"
+      }
+    ]
+  },
+  "H02": {
+    "id": "H02",
+    "difficulty": "hard",
+    "name": "Stock Trade with K-Day Cooldown",
+    "description": "prices[0..n-1]. Buy/sell 1 share. After selling on day i, can't buy until day i+k+1. Max profit.",
+    "constraints": "1<=n<=5000; 0<=prices[i]<=10^4; 1<=k<=n",
+    "tests": [
+      {
+        "input": "6 2\n1 2 3 0 2 4",
+        "output": "6"
+      },
+      {
+        "input": "4 1\n1 2 3 4",
+        "output": "3"
+      },
+      {
+        "input": "3 1\n1 3 2",
+        "output": "2"
+      },
+      {
+        "input": "1 1\n5",
+        "output": "0"
+      },
+      {
+        "input": "5 2\n1 4 2 7 3",
+        "output": "6"
+      }
+    ]
+  },
+  "H03": {
+    "id": "H03",
+    "difficulty": "hard",
+    "name": "Knight Minimum Moves with Blockers",
+    "description": "Knight at (0,0) reaches (tx,ty). Some cells blocked. Min moves or -1.",
+    "constraints": "-200<=tx,ty<=200; 0<=blockers<=20",
+    "tests": [
+      {
+        "input": "2 1\n0",
+        "output": "1"
+      },
+      {
+        "input": "5 5\n0",
+        "output": "4"
+      },
+      {
+        "input": "0 0\n0",
+        "output": "0"
+      },
+      {
+        "input": "100 100\n0",
+        "output": "67"
+      },
+      {
+        "input": "1 0\n1\n1 2",
+        "output": "3"
+      }
+    ]
+  },
+  "H04": {
+    "id": "H04",
+    "difficulty": "hard",
+    "name": "Minimum Cost Non-Decreasing Array",
+    "description": "Array a[1..n]. Cost 1 per unit change. Make non-decreasing. Min total cost.",
+    "constraints": "1<=n<=2000; -10^6<=a[i]<=10^6",
+    "tests": [
+      {
+        "input": "4\n3 2 4 1",
+        "output": "4"
+      },
+      {
+        "input": "3\n1 2 3",
+        "output": "0"
+      },
+      {
+        "input": "3\n3 2 1",
+        "output": "2"
+      },
+      {
+        "input": "5\n5 4 3 2 1",
+        "output": "6"
+      },
+      {
+        "input": "5\n1 5 3 6 4",
+        "output": "3"
+      }
+    ]
+  },
+  "H05": {
+    "id": "H05",
+    "difficulty": "hard",
+    "name": "Dynamic Connectivity (Offline)",
+    "description": "n nodes, ops: 'A u v' add edge, 'R u v' remove, 'Q u v' query connected.",
+    "constraints": "1<=n<=300; 1<=q<=1000",
+    "tests": [
+      {
+        "input": "3 5\nA 1 2\nA 2 3\nQ 1 3\nR 1 2\nQ 1 3",
+        "output": "YES\nNO"
+      },
+      {
+        "input": "2 3\nA 1 2\nQ 1 2\nR 1 2",
+        "output": "YES"
+      },
+      {
+        "input": "4 6\nA 1 2\nA 3 4\nQ 1 4\nA 2 3\nQ 1 4\nR 2 3",
+        "output": "NO\nYES"
+      },
+      {
+        "input": "2 2\nQ 1 2\nA 1 2",
+        "output": "NO"
+      },
+      {
+        "input": "5 7\nA 1 2\nA 2 3\nA 3 4\nA 4 5\nQ 1 5\nR 3 4\nQ 1 5",
+        "output": "YES\nNO"
+      }
+    ]
+  },
+  "H06": {
+    "id": "H06",
+    "difficulty": "medium",
+    "name": "Range XOR Query with Point Update",
+    "description": "Array a[1..n]. 'U i x': a[i]=x. 'Q l r': XOR of a[l..r].",
+    "constraints": "1<=n,q<=10^5; 0<=a[i]<=10^9",
+    "tests": [
+      {
+        "input": "5\n1 2 3 4 5\n4\nQ 1 5\nU 3 10\nQ 1 5\nQ 2 4",
+        "output": "1\n12\n8"
+      },
+      {
+        "input": "3\n0 0 0\n2\nU 2 7\nQ 1 3",
+        "output": "7"
+      },
+      {
+        "input": "4\n1 1 1 1\n3\nQ 1 4\nQ 1 2\nQ 3 4",
+        "output": "0\n0\n0"
+      },
+      {
+        "input": "1\n5\n2\nQ 1 1\nU 1 3",
+        "output": "5"
+      },
+      {
+        "input": "6\n1 3 5 7 9 11\n2\nQ 1 3\nQ 4 6",
+        "output": "7\n5"
+      }
+    ]
+  },
+  "H07": {
+    "id": "H07",
+    "difficulty": "medium",
+    "name": "Minimum Maximum Subarray Sum (K Splits)",
+    "description": "Split a[1..n] into exactly k subarrays. Minimize maximum subarray sum.",
+    "constraints": "1<=k<=n<=10^5; 1<=a[i]<=10^9",
+    "tests": [
+      {
+        "input": "5 2\n7 2 5 10 8",
+        "output": "18"
+      },
+      {
+        "input": "3 3\n1 2 3",
+        "output": "3"
+      },
+      {
+        "input": "4 2\n1 1 1 1",
+        "output": "2"
+      },
+      {
+        "input": "7 3\n1 2 3 4 5 6 7",
+        "output": "11"
+      },
+      {
+        "input": "1 1\n1000000000",
+        "output": "1000000000"
+      }
+    ]
+  },
+  "H08": {
+    "id": "H08",
+    "difficulty": "hard",
+    "name": "Shortest Superstring (n<=12)",
+    "description": "Find shortest string containing all n strings as substrings.",
+    "constraints": "1<=n<=12; total length<=100",
+    "tests": [
+      {
+        "input": "2\nab\nba",
+        "output": "aba"
+      },
+      {
+        "input": "1\nhello",
+        "output": "hello"
+      },
+      {
+        "input": "3\nabc\nbca\ncab",
+        "output": "abcab"
+      },
+      {
+        "input": "2\naaaa\naaa",
+        "output": "aaaa"
+      },
+      {
+        "input": "3\ncat\nat\nate",
+        "output": "cate"
+      }
+    ]
+  },
+  "H09": {
+    "id": "H09",
+    "difficulty": "medium",
+    "name": "Maximum Area Axis-Aligned Rectangle",
+    "description": "n points. Max area axis-aligned rectangle with all 4 corners in set. 0 if none.",
+    "constraints": "1<=n<=500; -10^4<=x,y<=10^4",
+    "tests": [
+      {
+        "input": "5\n1 1\n1 3\n3 1\n3 3\n2 2",
+        "output": "4"
+      },
+      {
+        "input": "4\n0 0\n0 1\n1 0\n1 1",
+        "output": "1"
+      },
+      {
+        "input": "3\n0 0\n1 1\n0 1",
+        "output": "0"
+      },
+      {
+        "input": "6\n0 0\n2 0\n0 3\n2 3\n1 1\n4 4",
+        "output": "6"
+      },
+      {
+        "input": "4\n0 0\n3 0\n0 4\n3 4",
+        "output": "12"
+      }
+    ]
+  },
+  "H10": {
+    "id": "H10",
+    "difficulty": "hard",
+    "name": "Digit DP: Digit Sum Divisible by K",
+    "description": "Count integers in [1,N] with digit sum divisible by k. Mod 10^9+7.",
+    "constraints": "1<=N<=10^18; 1<=k<=100",
+    "tests": [
+      {
+        "input": "100 3",
+        "output": "33"
+      },
+      {
+        "input": "20 5",
+        "output": "4"
+      },
+      {
+        "input": "9 9",
+        "output": "1"
+      },
+      {
+        "input": "99 3",
+        "output": "33"
+      },
+      {
+        "input": "1000 10",
+        "output": "99"
+      }
+    ]
+  },
+  "H11": {
+    "id": "H11",
+    "difficulty": "medium",
+    "name": "Minimum Machines for Typed Intervals",
+    "description": "n tasks: start s, end e, type t. Same-type tasks can't overlap on same machine. Min machines.",
+    "constraints": "1<=n<=10^5; 1<=s<=e<=10^9; 1<=t<=n",
+    "tests": [
+      {
+        "input": "4\n1 3 1\n2 4 1\n1 3 2\n2 4 2",
+        "output": "4"
+      },
+      {
+        "input": "3\n1 5 1\n2 3 1\n4 6 1",
+        "output": "2"
+      },
+      {
+        "input": "2\n1 10 1\n1 10 2",
+        "output": "2"
+      },
+      {
+        "input": "3\n1 2 1\n3 4 1\n5 6 1",
+        "output": "1"
+      },
+      {
+        "input": "5\n1 4 1\n2 5 1\n3 6 1\n7 8 1\n7 8 2",
+        "output": "4"
+      }
+    ]
+  },
+  "H12": {
+    "id": "H12",
+    "difficulty": "hard",
+    "name": "Range Add Range Max Query",
+    "description": "Array a[1..n]. 'A l r v': add v to a[l..r]. 'M l r': max of a[l..r].",
+    "constraints": "1<=n,q<=10^5; -10^9<=a[i],v<=10^9",
+    "tests": [
+      {
+        "input": "5\n1 3 2 7 9\n5\nM 1 5\nA 1 3 2\nM 1 5\nA 4 5 -3\nM 1 5",
+        "output": "9\n9\n6"
+      },
+      {
+        "input": "3\n0 0 0\n3\nA 1 3 5\nM 1 3\nM 2 2",
+        "output": "5\n5"
+      },
+      {
+        "input": "4\n1 2 3 4\n2\nA 2 3 10\nM 1 4",
+        "output": "13"
+      },
+      {
+        "input": "1\n42\n2\nA 1 1 -10\nM 1 1",
+        "output": "32"
+      },
+      {
+        "input": "6\n-5 -3 -1 1 3 5\n3\nA 1 6 3\nM 1 3\nM 4 6",
+        "output": "2\n8"
+      }
+    ]
+  },
+  "H13": {
+    "id": "H13",
+    "difficulty": "hard",
+    "name": "Minimum Cost Assignment (Bitmask DP)",
+    "description": "n workers, n jobs (n<=15). cost[i][j]=-1 means incompatible. Min cost or -1.",
+    "constraints": "1<=n<=15",
+    "tests": [
+      {
+        "input": "3\n1 2 3\n4 5 6\n7 8 9",
+        "output": "15"
+      },
+      {
+        "input": "2\n1 -1\n-1 1",
+        "output": "-1"
+      },
+      {
+        "input": "2\n3 1\n2 4",
+        "output": "5"
+      },
+      {
+        "input": "3\n1 -1 -1\n-1 2 -1\n-1 -1 3",
+        "output": "6"
+      },
+      {
+        "input": "4\n9 2 7 8\n6 4 3 7\n5 8 1 8\n7 6 9 4",
+        "output": "13"
+      }
+    ]
+  },
+  "H14": {
+    "id": "H14",
+    "difficulty": "hard",
+    "name": "Count Strong Inversions",
+    "description": "Array a[1..n]. Count pairs i<j where a[i]-a[j]>d. Mod 10^9+7.",
+    "constraints": "1<=n<=10^5; 0<=a[i]<=10^9; 0<=d<=10^9",
+    "tests": [
+      {
+        "input": "5 0\n5 3 1 4 2",
+        "output": "7"
+      },
+      {
+        "input": "4 2\n1 2 3 4",
+        "output": "0"
+      },
+      {
+        "input": "4 0\n4 3 2 1",
+        "output": "6"
+      },
+      {
+        "input": "5 1\n5 3 1 4 2",
+        "output": "4"
+      },
+      {
+        "input": "3 5\n10 1 8",
+        "output": "1"
+      }
+    ]
+  },
+  "H15": {
+    "id": "H15",
+    "difficulty": "medium",
+    "name": "Palindrome Partitioning Min Cuts",
+    "description": "String s. Min cuts (partitions-1) into palindromes.",
+    "constraints": "1<=|s|<=1000; lowercase",
+    "tests": [
+      {
+        "input": "aab",
+        "output": "1"
+      },
+      {
+        "input": "a",
+        "output": "0"
+      },
+      {
+        "input": "ab",
+        "output": "1"
+      },
+      {
+        "input": "aaaa",
+        "output": "0"
+      },
+      {
+        "input": "abcba",
+        "output": "0"
+      }
+    ]
+  }
+}

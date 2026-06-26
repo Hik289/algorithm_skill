@@ -1,0 +1,32 @@
+# Byte-compiled / cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Editor + OS junk
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Secrets and local config
+.env
+.env.local
+*.secret
+secrets/
+
+# Local raw experiment outputs (do not check in)
+results_*/
+raw_data/
+raw_data_v2/
+
+# Logs
+*.log
+logs/
+
+# Ephemeral scratch
+/tmp/
+tmp_*/
