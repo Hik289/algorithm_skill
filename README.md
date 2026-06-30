@@ -1,6 +1,21 @@
-# AlgoSkill: Learning to Schedule Algorithmic Skills for Automatic Algorithm Design
+# AlgoSkill: Learning to Design Algorithms by Scheduling Human-Like Skills
 
-[Paper (EMNLP 2026)](#) · [Code](#repository-structure) · [Reproduction](#reproducing-the-paper-results) · [Citation](#citation)
+<p align="center">
+  <a href="https://arxiv.org/abs/2606.29999">
+    <img src="https://img.shields.io/badge/arXiv-2606.29999-b31b1b.svg" alt="arXiv">
+  </a>
+  <a href="https://arxiv.org/pdf/2606.29999">
+    <img src="https://img.shields.io/badge/Paper-PDF-red.svg" alt="Paper PDF">
+  </a>
+  <a href="https://github.com/Hik289/algorithm_skill">
+    <img src="https://img.shields.io/badge/GitHub-Code-black.svg" alt="GitHub code">
+  </a>
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT license">
+  </a>
+</p>
+
+[Paper](https://arxiv.org/abs/2606.29999) · [Code](#repository-structure) · [Reproduction](#reproducing-the-paper-results) · [Citation](#citation)
 
 AlgoSkill is a framework for automatic algorithm design with large language models (LLMs). Instead of asking an LLM to solve an algorithmic problem in one prompt, AlgoSkill decomposes the design process into typed algorithmic skills and schedules these skills before code generation.
 
@@ -101,7 +116,7 @@ These results support a measured interpretation: explicit skill scheduling can i
 ## Repository structure
 
 ```text
-algoskill_release/
+algorithm_skill/
 ├── README.md
 ├── LICENSE
 ├── requirements.txt
@@ -138,8 +153,8 @@ algoskill_release/
 ## Installation
 
 ```bash
-git clone https://github.com/<your-account>/algoskill.git
-cd algoskill_release
+git clone https://github.com/Hik289/algorithm_skill.git
+cd algorithm_skill
 python3 -m venv .venv
 source .venv/bin/activate
 pip install --upgrade pip
@@ -254,11 +269,15 @@ AlgoSkill depends on the quality of the skill library and the scheduler. A missi
 ## Citation
 
 ```bibtex
-@inproceedings{algoskill2026,
-  title     = {AlgoSkill: Learning to Schedule Algorithmic Skills for Automatic Algorithm Design},
-  author    = {Anonymous Authors},
-  booktitle = {Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing},
-  year      = {2026}
+@misc{song2026algoskill,
+  title         = {AlgoSkill: Learning to Design Algorithms by Scheduling Human-Like Skills},
+  author        = {Xinyuan Song and Zekun Cai and Liang Zhao},
+  year          = {2026},
+  eprint        = {2606.29999},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.AI},
+  doi           = {10.48550/arXiv.2606.29999},
+  url           = {https://arxiv.org/abs/2606.29999}
 }
 ```
 
