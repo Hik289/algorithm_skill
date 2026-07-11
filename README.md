@@ -106,8 +106,8 @@ The post-cutoff evaluation is important because gains on synthetic or canonical 
 
 The current README reports the main observations from the paper rather than treating every setting as equally favorable:
 
-- On Hard Bench with Haiku-4-5, AlgoSkill-MCTS improves correctness over Direct by 26.7 percentage points, from 3/15 to 7/15.
-- On v4-192 with `gpt-oss-120b`, AlgoSkill improves correctness by 20.3 percentage points and T-opt by 19.8 percentage points over Direct.
+- On Hard Bench with one API backend, AlgoSkill-MCTS improves correctness over Direct by 26.7 percentage points, from 3/15 to 7/15.
+- On v4-192 with a stronger API backend, AlgoSkill improves correctness by 20.3 percentage points and T-opt by 19.8 percentage points over Direct.
 - On the 48 post-cutoff AtCoder problems, the synthetic-corpus gains do not transfer at the same magnitude. Some backbone and metric combinations show no gain or a correctness–efficiency trade-off.
 - On reasoning-heavy backbones, AlgoSkill-MCTS can be expensive because each trajectory contains several long LLM calls. In these settings, the per-call reasoning latency can dominate the MCTS trajectory count.
 
@@ -165,17 +165,41 @@ The release is intended for Python 3.10–3.12.
 
 ## API configuration
 
-Set only the keys required by the backbones that you plan to run:
+The code uses generic backend aliases (`default`, `fast`, `strong`, and
+`judge`). Concrete providers, model identifiers, endpoints, and keys are local
+configuration and are not hard-coded in the repository.
+
+For a single backend, set:
 
 ```bash
-export ANTHROPIC_API_KEY="..."
-export OPENAI_API_KEY="..."
-export BEDROCK_API_KEY="..."
-export GROQ_API_KEY="..."
-export GEMINI_API_KEY="..."
+export ALGOSKILL_API_STYLE="chat_completions"
+export ALGOSKILL_BASE_URL="https://your-compatible-endpoint/v1"
+export ALGOSKILL_MODEL="your-model-id"
+export ALGOSKILL_API_KEY="..."
 ```
 
-`src/llm_client.py` loads provider SDKs only when needed. It also stops after repeated fatal API failures so that an invalid key or exhausted quota does not silently continue consuming experiment time.
+For multiple aliases, use alias-specific variables:
+
+```bash
+export ALGOSKILL_DEFAULT_API_STYLE="chat_completions"
+export ALGOSKILL_DEFAULT_BASE_URL="https://your-default-endpoint/v1"
+export ALGOSKILL_DEFAULT_MODEL="your-default-model"
+export ALGOSKILL_DEFAULT_API_KEY="..."
+
+export ALGOSKILL_JUDGE_API_STYLE="chat_completions"
+export ALGOSKILL_JUDGE_BASE_URL="https://your-judge-endpoint/v1"
+export ALGOSKILL_JUDGE_MODEL="your-judge-model"
+export ALGOSKILL_JUDGE_API_KEY="..."
+```
+
+Alternatively, copy `backend_config.example.json` to a local untracked file and
+point `ALGOSKILL_BACKEND_CONFIG` to it. The JSON keys are backend aliases and
+the values contain `api_style`, `model`, `base_url`, `api_key_env`, and optional
+`sleep_after` or `default_max_output_tokens`. Supported API styles are
+`chat_completions`, `responses`, `messages`, `generate_content`, and `converse`.
+
+`src/llm_client.py` stops after repeated fatal API failures so that an invalid
+key or exhausted quota does not silently continue consuming experiment time.
 
 ## Quick start
 
@@ -185,8 +209,8 @@ export GEMINI_API_KEY="..."
 python src/run_rule_based.py \
   --corpus data/rule_based_corpus_v4.json \
   --method direct \
-  --backbone claude_haiku \
-  --out results/smoke_direct_haiku.json \
+  --backbone default \
+  --out results/smoke_direct.json \
   --limit 3
 ```
 
@@ -195,8 +219,8 @@ python src/run_rule_based.py \
 ```bash
 python src/run_hard_v3_unified.py \
   --method algoskill_g_v3 \
-  --backbone bedrock_gpt_oss_120b \
-  --out results/hb_algoskill_g_gpt_oss_120b.json
+  --backbone strong \
+  --out results/hb_algoskill_g_strong.json
 ```
 
 ### AlgoSkill-MCTS with ten trajectories
@@ -204,19 +228,19 @@ python src/run_hard_v3_unified.py \
 ```bash
 python src/run_hard_v3_unified.py \
   --method algoskill_v3 \
-  --backbone claude_haiku \
+  --backbone default \
   --n_traj 10 \
-  --out results/hb_algoskill_mcts_haiku.json
+  --out results/hb_algoskill_mcts.json
 ```
 
 ### T-opt and S-opt judging
 
 ```bash
 python src/run_topt_judge_hb_v3.py \
-  --results results/hb_algoskill_g_gpt_oss_120b.json \
+  --results results/hb_algoskill_g_strong.json \
   --corpus data/hard_bench_corpus.json \
-  --judge_backbone claude_haiku \
-  --out results/hb_algoskill_g_gpt_oss_120b_judged.json
+  --judge_backbone judge \
+  --out results/hb_algoskill_g_strong_judged.json
 ```
 
 ## Output format
@@ -251,8 +275,8 @@ Judged files additionally contain T-opt and S-opt decisions and parsed reference
 | v4-192 correctness, T-opt, and S-opt | `bash scripts/reproduce_v4.sh` |
 | HB-15 pass@k, T-opt, and S-opt | `bash scripts/reproduce_hardbench.sh` |
 | Post-cutoff distribution shift | `bash scripts/reproduce_postcutoff.sh` after rebuilding the corpus |
-| MCTS search ablations | `python src/run_mcts_ablation_v2.py --backbone claude_haiku --out results/mcts_ablation.json` |
-| Skill-frequency analysis | `python src/run_skill_frequency.py --backbone claude_haiku --out results/skill_frequency.json` |
+| MCTS search ablations | `python src/run_mcts_ablation_v2.py --backbone default --out results/mcts_ablation.json` |
+| Skill-frequency analysis | `python src/run_skill_frequency.py --backbone default --out results/skill_frequency.json` |
 
 The reproduction scripts write new experiment outputs under `results/`. The full original raw result directory is not included because reproducing all backbone–corpus combinations requires paid API calls.
 

@@ -15,6 +15,7 @@ __pycache__/
 # Secrets and local config
 .env
 .env.local
+backend_config.local.json
 *.secret
 secrets/
 

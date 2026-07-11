@@ -195,7 +195,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--results", required=True)
     ap.add_argument("--corpus", required=True)
-    ap.add_argument("--judge_backbone", default="claude_haiku")
+    ap.add_argument("--judge_backbone", default="judge")
     ap.add_argument("--out", required=True)
     ap.add_argument("--smoke", type=int, default=0,
                     help="If > 0, judge only first N and exit (for testing)")

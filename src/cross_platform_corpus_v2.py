@@ -1,7 +1,7 @@
 """
 Task 6 v2: HARDER cross-platform corpus generator.
 
-Path A iteration after v1 calibration miss (Direct@Haiku 85% > 65% upper bound).
+Path A iteration after v1 calibration miss (direct baseline above target range).
 
 Key changes vs v1:
 - Stronger prompt: explicit "must be Codeforces Div1 / AtCoder ABC F / LeetCode
@@ -204,7 +204,7 @@ def _run_code(code, stdin_data, timeout=8.0):
         return "", "ERR", str(e)[:200]
 
 
-def build_one(platform, skeleton, oracle="claude_haiku"):
+def build_one(platform, skeleton, oracle="judge"):
     if platform == "CF":
         platform_name = "Codeforces"
     elif platform == "ATC":
@@ -250,7 +250,7 @@ def main():
     ap.add_argument("--n_cf", type=int, default=100)
     ap.add_argument("--n_atc", type=int, default=100)
     ap.add_argument("--n_lc", type=int, default=75)
-    ap.add_argument("--oracle", default="claude_haiku")
+    ap.add_argument("--oracle", default="judge")
     ap.add_argument("--seed", type=int, default=2027)
     args = ap.parse_args()
 

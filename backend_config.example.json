@@ -1,0 +1,21 @@
+{
+  "default": {
+    "api_style": "chat_completions",
+    "base_url": "https://your-compatible-endpoint/v1",
+    "model": "your-default-model",
+    "api_key_env": "ALGOSKILL_DEFAULT_API_KEY"
+  },
+  "strong": {
+    "api_style": "chat_completions",
+    "base_url": "https://your-strong-endpoint/v1",
+    "model": "your-strong-model",
+    "api_key_env": "ALGOSKILL_STRONG_API_KEY",
+    "default_max_output_tokens": 4096
+  },
+  "judge": {
+    "api_style": "chat_completions",
+    "base_url": "https://your-judge-endpoint/v1",
+    "model": "your-judge-model",
+    "api_key_env": "ALGOSKILL_JUDGE_API_KEY"
+  }
+}

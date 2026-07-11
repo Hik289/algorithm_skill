@@ -47,15 +47,14 @@ judge_one () {
   python src/run_topt_judge_hb_v3.py \
     --results "$raw" \
     --corpus  "$CORPUS" \
-    --judge_backbone claude_haiku \
+    --judge_backbone judge \
     --out "$out"
 }
 
-# ── Backbones used in paper Table 6 ────────────────────────────────────────
+# ── Generic backends used for this table ────────────────────────────────────
 BACKBONES=(
-  claude_haiku
-  # bedrock_gpt_oss_120b
-  # bedrock_gpt55
+  default
+  # strong
 )
 
 METHODS=( direct algoskill )
@@ -68,7 +67,7 @@ for bb in "${BACKBONES[@]}"; do
 done
 
 echo
-echo "Running T-opt + S-opt judges (Haiku-judge)"
+echo "Running T-opt + S-opt judges"
 for bb in "${BACKBONES[@]}"; do
   for m in "${METHODS[@]}"; do
     judge_one "$m" "$bb"

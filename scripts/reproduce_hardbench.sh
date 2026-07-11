@@ -3,17 +3,12 @@
 # Runs Direct + CoT + AlgoSkill-Greedy + AlgoSkill-MCTS on selected backbones,
 # then runs the T-opt + S-opt judge on each result.
 #
-# Required env vars (set before running):
-#   ANTHROPIC_API_KEY      (or ANTHROPIC_API_BASE for a proxy)
-# Optional, only if you actually want those backbone rows:
-#   OPENAI_API_KEY         (gpt4o)
-#   BEDROCK_API_KEY        (gpt_oss_120b, gpt_oss_20b, claude_sonnet45, gpt55)
-#   GEMINI_API_KEY         (gemini25flash)
+# Configure concrete API providers locally through ALGOSKILL_* environment
+# variables or ALGOSKILL_BACKEND_CONFIG. This script only refers to generic
+# backend aliases.
 #
-# Note: AlgoSkill-MCTS (algoskill_v3) on the three reasoning-focused
-# backbones (Sonnet-4-5, gpt-oss-120b, GPT-5.5) can hang for hours per
-# problem and is marked N/A in the paper. This script runs MCTS only on
-# Haiku and GPT-4o by default; see the comments below to extend.
+# Note: AlgoSkill-MCTS can be expensive on high-latency reasoning backends.
+# This script runs MCTS only on the affordable backend group by default.
 
 set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -48,21 +43,18 @@ judge_one () {
   python src/run_topt_judge_hb_v3.py \
     --results "$raw" \
     --corpus  "$ROOT_DIR/data/hard_bench_corpus.json" \
-    --judge_backbone claude_haiku \
+    --judge_backbone judge \
     --out "$out"
 }
 
-# ── Backbones to run. Comment out rows you do not have keys for. ────────────
+# ── Generic backends to run. Configure their real APIs locally. ─────────────
 BACKBONES_CHEAP=(
-  claude_haiku
-  # gpt4o
-  # bedrock_gpt_oss_20b
+  default
+  # fast
 )
 
 BACKBONES_EXPENSIVE=(
-  # bedrock_claude_sonnet45
-  # bedrock_gpt_oss_120b
-  # bedrock_gpt55
+  # strong
 )
 
 # ── 1) Direct / CoT / AlgoSkill-Greedy on all selected backbones ────────────
@@ -79,7 +71,7 @@ for bb in "${BACKBONES_CHEAP[@]}"; do
   run_one algoskill_v3 "$bb"
 done
 
-# Reasoning-focused backbones: paper documents these as N/A on HB.
+# High-latency backends: paper documents these as N/A on HB.
 # Uncomment the loop below if you want to reproduce the kills:
 # for bb in "${BACKBONES_EXPENSIVE[@]}"; do
 #   echo "[$bb] running algoskill_v3 with --n_traj 3 (may hang on H01)"

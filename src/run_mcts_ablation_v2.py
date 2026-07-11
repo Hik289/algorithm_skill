@@ -1,5 +1,5 @@
 """
-Task 1: rerun mcts_ablation with patched MCTS code, Claude Haiku backbone.
+Task 1: rerun mcts_ablation with the configured default backend.
 
 Conditions: Greedy_Policy, Beam_Search, MCTS_NoPolicy, MCTS_WithPolicy
 Problems: 20 (from problems.py)
@@ -104,7 +104,7 @@ def main():
     ap.add_argument("--conditions", default="all",
                     help="all | comma list e.g. Greedy_Policy,MCTS_WithPolicy")
     ap.add_argument("--out", required=True, help="output JSON file")
-    ap.add_argument("--backbone", default="claude_haiku")
+    ap.add_argument("--backbone", default="default")
     args = ap.parse_args()
 
     os.environ.setdefault("ALGOSKILL_BACKBONE", args.backbone)

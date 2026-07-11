@@ -113,7 +113,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--results", required=True)
     ap.add_argument("--corpus", required=True)
-    ap.add_argument("--judge_backbone", default="claude_haiku")
+    ap.add_argument("--judge_backbone", default="judge")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
     corpus = json.load(open(args.corpus))

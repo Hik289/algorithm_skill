@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 # Reproduce paper Tables 2 + 5 (v4-192 correctness + T-opt + S-opt).
 #
-# Required env vars (set before running, depending on which backbones you want):
-#   ANTHROPIC_API_KEY      (claude_haiku, bedrock_claude_sonnet45)
-#   BEDROCK_API_KEY        (gpt_oss_120b, gpt_oss_20b, llama33_70b, gpt55, sonnet on bedrock)
-#   OPENAI_API_KEY         (gpt4o)
-#   GEMINI_API_KEY         (gemini25flash)
+# Configure concrete API providers locally through ALGOSKILL_* environment
+# variables or ALGOSKILL_BACKEND_CONFIG. This script only refers to generic
+# backend aliases.
 
 set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -43,19 +41,15 @@ judge_one () {
   python src/run_topt_judge.py \
     --results "$raw" \
     --corpus  "$CORPUS" \
-    --judge_backbone claude_haiku \
+    --judge_backbone judge \
     --out "$out"
 }
 
-# ── Backbones to run (comment / uncomment as you have keys) ─────────────────
+# ── Generic backends to run (configure their real APIs locally) ─────────────
 BACKBONES=(
-  claude_haiku
-  # bedrock_claude_sonnet45
-  # bedrock_gpt_oss_120b
-  # bedrock_gpt_oss_20b
-  # bedrock_llama33_70b
-  # bedrock_gpt55
-  # gpt4o
+  default
+  # fast
+  # strong
 )
 
 METHODS=( direct cot algoskill_g algoskill )
@@ -68,7 +62,7 @@ for bb in "${BACKBONES[@]}"; do
 done
 
 echo
-echo "Running T-opt + S-opt judges (Haiku-judge)"
+echo "Running T-opt + S-opt judges"
 for bb in "${BACKBONES[@]}"; do
   for m in "${METHODS[@]}"; do
     judge_one "$m" "$bb"

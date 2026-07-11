@@ -82,7 +82,7 @@ def main():
                     help="Results JSON from run_rule_based.py")
     ap.add_argument("--corpus", required=True,
                     help="rule_based_corpus_v3.json (has opt_time per problem)")
-    ap.add_argument("--judge_backbone", default="claude_haiku")
+    ap.add_argument("--judge_backbone", default="judge")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
 

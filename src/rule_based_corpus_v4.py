@@ -1,9 +1,9 @@
 """
-Rule-based corpus v4: harder problems calibrated for Haiku Direct ~45-65%.
+Rule-based corpus v4: harder problems calibrated for a mid-strength direct baseline.
 
 Key design changes vs v3:
 - Drop the 10 trivially-easy families (binary_search/two_pointers/prefix_sum/etc.)
-  Haiku one-shots these regardless of N.
+  The direct baseline one-shots these regardless of N.
 - Add 12 harder algorithmic families that require non-obvious algorithms:
   1. Segment tree with lazy propagation (range update, range query)
   2. Suffix array LCP queries

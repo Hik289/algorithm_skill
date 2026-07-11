@@ -191,7 +191,7 @@ class MCTSNode:
 def compute_reward(state: dict) -> float:
     """Compute reward for a terminal or rollout state.
 
-    BUGFIX 2026-05-28 (ml_engineer_claude): previously, when state had no
+    BUGFIX 2026-05-28: previously, when state had no
     verify_result, this function would call apply_skill("code_generation")
     into a *new* dict and never write the generated code/result back into
     the caller's state. That caused MCTS branches in algoskill.py and
@@ -239,7 +239,7 @@ class AlgoSkillMCTS:
     def solve(self, problem: dict) -> dict:
         """Run MCTS search and return best solution found.
 
-        2026-05-28 (ml_engineer_claude): also tracks the skill_history of
+        2026-05-28: also tracks the skill_history of
         the trajectory that produced best_code, so callers (task 8 fig5
         re-statistics) can recover real skill sequences.
         """
@@ -307,7 +307,7 @@ class AlgoSkillMCTS:
     def _rollout(self, node: MCTSNode) -> float:
         """Quick rollout from node to terminal.
 
-        BUGFIX 2026-05-28 (ml_engineer_claude): the rollout used to rebind
+        BUGFIX 2026-05-28: the rollout used to rebind
         the local `state` variable via state = apply_skill(...) but never
         wrote results back into node.state. The caller (solve) then read
         child.state["code"] -> "" and recorded best_code="" even when the
@@ -373,7 +373,7 @@ def run_algoskill_full(problem: dict, n_samples: int = 5) -> list:
     """Run AlgoSkill Full (MCTS) n_samples times and return list of code strings.
 
     BUDGET 2026-05-28: reduced budget from 16 to 8 to keep wallclock manageable
-    on Haiku-4-5 (each LLM call adds ~3s sleep + 2-4s server latency, so
+    on a rate-limited backend (each LLM call adds sleep plus server latency, so
     budget=16 with rollout depth 4 = up to 60 calls/trajectory at ~5min/sample
     × 5 samples × 20 problems = ~8h per condition). budget=8 cuts to ~4h.
     The original (broken) code had budget=16; results are not strictly

@@ -5,14 +5,6 @@
 requests>=2.31.0
 numpy>=1.24.0
 
-# LLM provider SDKs (only the ones you plan to use need to be installed;
-# llm_client.py imports each provider lazily).
-openai>=1.30.0          # for OpenAI GPT-4o / GPT-4.1, or any OpenAI-compatible endpoint
-
-# Optional providers (uncomment as needed):
-# anthropic>=0.34.0     # if you want the native Anthropic SDK; we use HTTP directly
-# google-generativeai>=0.7.0  # for Gemini-2.5-Flash baseline
-
-# Note: AWS Bedrock long-lived API keys (used for Claude/Llama/gpt-oss on Bedrock,
-# and GPT-5.x on the new bedrock-mantle "responses" endpoint) are called via plain
-# HTTP + Authorization: Bearer header, so no boto3 is required.
+# LLM backends are called through provider-agnostic HTTP adapters in
+# src/llm_client.py. Add provider-specific SDKs locally only if you extend the
+# client with custom adapters.

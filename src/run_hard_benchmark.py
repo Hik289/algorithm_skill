@@ -1,19 +1,17 @@
 """
-Hard benchmark runner: 15 novel problems × {Direct_LLM, AlgoSkill_v3} × {GPT-4o, Claude-Haiku}
-Four experiments total.
+Legacy hard benchmark runner for 15 novel problems.
+
+This entry point now uses the provider-agnostic AlgoSkill backend aliases from
+llm_client.py. Configure concrete API providers locally through environment
+variables or ALGOSKILL_BACKEND_CONFIG instead of editing this file.
 """
 import sys, os, json, time, re, subprocess, textwrap, signal
 sys.path.insert(0, os.path.dirname(__file__))
+from llm_client import call_llm_with_usage
 
 # Output directory for raw results. Override with RESULTS_DIR env var.
 RESULTS = os.environ.get("RESULTS_DIR", os.path.join(os.path.dirname(__file__), "..", "results_hard"))
 os.makedirs(RESULTS, exist_ok=True)
-
-OPENAI_KEY = os.environ.get("OPENAI_API_KEY", "")
-GEMINI_KEY = os.environ.get("GEMINI_API_KEY", "")
-# Anthropic API endpoint. Override with ANTHROPIC_API_BASE env var
-# (e.g. for a local proxy or LiteLLM gateway).
-CLAUDE_PROXY = os.environ.get("ANTHROPIC_API_BASE", "https://api.anthropic.com")
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Problem definitions (self-contained, no import needed)
@@ -245,59 +243,17 @@ def verify(code: str, problem: dict) -> dict:
     return {"passed": passed, "total": len(problem["tests"]), "failed": failed}
 
 # ─────────────────────────────────────────────────────────────────────────────
-# LLM clients
+# LLM client adapter
 # ─────────────────────────────────────────────────────────────────────────────
-def make_oai(api_key: str, model: str = "gpt-4o"):
-    from openai import OpenAI
-    client = OpenAI(api_key=api_key)
+def make_backend(backend: str):
     def call(prompt: str):
-        r = client.chat.completions.create(
-            model=model, max_tokens=4096, temperature=0.8,
-            messages=[{"role":"user","content":prompt}])
-        t = r.usage
-        return r.choices[0].message.content, {
-            "prompt_tokens": t.prompt_tokens,
-            "completion_tokens": t.completion_tokens,
-            "total_tokens": t.total_tokens}
-    return call
-
-def make_claude(model: str = "claude-haiku-4-5"):
-    import requests as req
-    def call(prompt: str):
-        r = req.post(f"{CLAUDE_PROXY}/v1/messages",
-            headers={"x-api-key":"placeholder","anthropic-version":"2023-06-01",
-                     "content-type":"application/json"},
-            json={"model":model,"max_tokens":4096,"temperature":1.0,
-                  "messages":[{"role":"user","content":prompt}]},
-            timeout=60)
-        if not r.ok:
-            raise RuntimeError(f"Claude error {r.status_code}: {r.text[:200]}")
-        d = r.json()
-        text = d["content"][0]["text"]
-        u = d.get("usage",{})
-        return text, {"prompt_tokens": u.get("input_tokens",0),
-                      "completion_tokens": u.get("output_tokens",0),
-                      "total_tokens": u.get("input_tokens",0)+u.get("output_tokens",0)}
-    return call
-
-def make_gemini(api_key: str, model: str = "gemini-2.5-flash"):
-    import requests as req
-    def call(prompt: str):
-        url = f"https://generativelanguage.googleapis.com/v1/models/{model}:generateContent?key={api_key}"
-        for _ in range(3):
-            r = req.post(url,
-                json={"contents":[{"parts":[{"text":prompt}]}],
-                      "generationConfig":{"temperature":0.8,"maxOutputTokens":4096}},
-                timeout=60)
-            if r.ok:
-                d = r.json()
-                text = d["candidates"][0]["content"]["parts"][0]["text"]
-                u = d.get("usageMetadata",{})
-                return text, {"prompt_tokens": u.get("promptTokenCount",0),
-                              "completion_tokens": u.get("candidatesTokenCount",0),
-                              "total_tokens": u.get("totalTokenCount",0)}
-            time.sleep(5)
-        raise RuntimeError("Gemini failed")
+        out = call_llm_with_usage(
+            prompt,
+            backend=backend,
+            temperature=0.8,
+            max_tokens=4096,
+        )
+        return out["text"], out["tokens"]
     return call
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -544,26 +500,14 @@ if __name__ == "__main__":
         pass  # pid already set in dict
 
     all_summary = {}
+    backend_list = os.environ.get("ALGOSKILL_LEGACY_BACKENDS", "default")
     configs = []
-    if OPENAI_KEY:
-        oai4o = make_oai(OPENAI_KEY, "gpt-4o")
-        oaim  = make_oai(OPENAI_KEY, "gpt-4o-mini")
+    for backend in [b.strip() for b in backend_list.split(",") if b.strip()]:
+        llm = make_backend(backend)
+        safe_name = re.sub(r"[^A-Za-z0-9_.-]+", "_", backend)
         configs += [
-            ("Direct_LLM_gpt4o",       run_direct,     oai4o),
-            ("AlgoSkill_v3_gpt4o",     run_algoskill,  oai4o),
-            ("Direct_LLM_gpt4omini",   run_direct,     oaim),
-            ("AlgoSkill_v3_gpt4omini", run_algoskill,  oaim),
-        ]
-    claude_h = make_claude("claude-haiku-4-5")
-    configs += [
-        ("Direct_LLM_claude_haiku",    run_direct,     claude_h),
-        ("AlgoSkill_v3_claude_haiku",  run_algoskill,  claude_h),
-    ]
-    if GEMINI_KEY:
-        gem = make_gemini(GEMINI_KEY)
-        configs += [
-            ("Direct_LLM_gemini25flash",    run_direct,    gem),
-            ("AlgoSkill_v3_gemini25flash",  run_algoskill, gem),
+            (f"Direct_LLM_{safe_name}", run_direct, llm),
+            (f"AlgoSkill_v3_{safe_name}", run_algoskill, llm),
         ]
 
     for name, fn, llm_fn in configs:
