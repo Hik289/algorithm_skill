@@ -1,13 +1,9 @@
 # AlgoSkill: Learning to Design Algorithms by Scheduling Human-Like Skills
 
 <p align="center">
-  <a href="https://arxiv.org/abs/2606.29999">
-    <img src="https://img.shields.io/badge/arXiv-2606.29999-b31b1b.svg" alt="arXiv">
-  </a>
-  <img src="https://img.shields.io/badge/Python-3.10--3.12-blue.svg" alt="Python 3.10-3.12">
-  <a href="LICENSE">
-    <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT license">
-  </a>
+  <a href="https://arxiv.org/abs/2606.29999"><img src="https://img.shields.io/badge/arXiv-2606.29999-b31b1b.svg" alt="arXiv"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT license"></a>
+  <a href="requirements.txt"><img src="https://img.shields.io/badge/Python-3.10--3.12-3776AB.svg" alt="Python 3.10-3.12"></a>
 </p>
 
 AlgoSkill is a framework for automatic algorithm design with large language models (LLMs). Instead of asking an LLM to solve an algorithmic problem in one prompt, AlgoSkill decomposes the design process into typed algorithmic skills and schedules these skills before code generation.
