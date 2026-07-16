@@ -14,7 +14,13 @@ The repository includes the AlgoSkill framework, Direct and chain-of-thought (Co
   <img src="assets/algoskill_intuition.png" width="95%" alt="AlgoSkill intuition: one-shot generation versus explicit algorithmic skill scheduling">
 </p>
 
-## Main idea
+## At a Glance
+
+- **Research question.** Can algorithm design be improved by scheduling reusable, human-like problem-solving skills?
+- **Core idea.** AlgoSkill searches over typed algorithmic skill trajectories with greedy, MCTS, and verification-based variants.
+- **What is included.** Benchmark data, direct and CoT baselines, skill schedulers, execution checks, repair, and T/S-optimality judging.
+
+## Method Overview
 
 Algorithm design usually requires several distinct decisions: reading constraints, selecting a useful abstraction, constructing a baseline, defining states or invariants, choosing a data structure, checking complexity, and converting the design into executable code. A one-shot prompt leaves these decisions implicit and gives the model little control over their order.
 
@@ -31,7 +37,7 @@ AlgoSkill is therefore a scaffolding and search framework around a fixed LLM bac
   <img src="assets/algoskill_pipeline.png" width="98%" alt="AlgoSkill pipeline from problem input through skill scheduling, code generation, verification, and evaluation">
 </p>
 
-## Methods included
+## Implemented Methods
 
 | Method | Description |
 |---|---|
