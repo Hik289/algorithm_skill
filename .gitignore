@@ -31,3 +31,24 @@ logs/
 # Ephemeral scratch
 /tmp/
 tmp_*/
+
+# Shared research-artifact hygiene
+.AppleDouble
+._*
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+env/
+.env.*
+!.env.example
+outputs/
+runs/
+wandb/
+checkpoints/
+*.tmp
