@@ -285,6 +285,10 @@ AlgoSkill-MCTS makes several LLM calls per trajectory and may also call the mode
 
 AlgoSkill depends on the quality of the skill library and the scheduler. A missing skill or poor skill order can still produce an incorrect design. Execution-based verification is limited by test coverage, and the optional repair step may overfit visible sample failures. T-opt and S-opt are estimated by an LLM judge and should be interpreted together with execution results and manual checks. Finally, gains on canonical or generated problems should not be assumed to transfer unchanged to newly released contest problems.
 
+## Reviewer Guide
+
+For a reviewer-oriented map of smoke checks, paper-scale entry points, data boundaries, and reporting metadata, see [Artifact Guide](docs/ARTIFACT.md).
+
 ## Artifact Checklist
 
 - **Code release.** Core implementations, configuration files, and reproduction entry points are versioned in this repository.
