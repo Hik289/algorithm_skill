@@ -301,7 +301,7 @@ For a reviewer-oriented map of smoke checks, paper-scale entry points, data boun
 ```bibtex
 @misc{song2026algoskill,
   title         = {AlgoSkill: Learning to Design Algorithms by Scheduling Human-Like Skills},
-  author        = {Xinyuan Song and Zekun Cai and Liang Zhao},
+  author        = {Anonymous Authors},
   year          = {2026},
   eprint        = {2606.29999},
   archivePrefix = {arXiv},
