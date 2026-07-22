@@ -14,11 +14,11 @@ The repository includes the AlgoSkill framework, Direct and chain-of-thought (Co
   <img src="assets/algoskill_intuition.png" width="95%" alt="AlgoSkill intuition: one-shot generation versus explicit algorithmic skill scheduling">
 </p>
 
-## At a Glance
+## Repository Summary
 
-- **Research question.** Can algorithm design be improved by scheduling reusable, human-like problem-solving skills?
-- **Core idea.** AlgoSkill searches over typed algorithmic skill trajectories with greedy, MCTS, and verification-based variants.
-- **What is included.** Benchmark data, direct and CoT baselines, skill schedulers, execution checks, repair, and T/S-optimality judging.
+- **Scope.** Can algorithm design be improved by scheduling reusable, human-like problem-solving skills?
+- **Method.** AlgoSkill searches over typed algorithmic skill trajectories with greedy, MCTS, and verification-based variants.
+- **Contents.** Benchmark data, direct and CoT baselines, skill schedulers, execution checks, repair, and T/S-optimality judging.
 
 ## Method Overview
 
@@ -285,16 +285,16 @@ AlgoSkill-MCTS makes several LLM calls per trajectory and may also call the mode
 
 AlgoSkill depends on the quality of the skill library and the scheduler. A missing skill or poor skill order can still produce an incorrect design. Execution-based verification is limited by test coverage, and the optional repair step may overfit visible sample failures. T-opt and S-opt are estimated by an LLM judge and should be interpreted together with execution results and manual checks. Finally, gains on canonical or generated problems should not be assumed to transfer unchanged to newly released contest problems.
 
-## Reviewer Guide
+## Artifact Notes
 
-For a reviewer-oriented map of smoke checks, paper-scale entry points, data boundaries, and reporting metadata, see [Artifact Guide](docs/ARTIFACT.md).
+Reproduction notes are in [docs/ARTIFACT.md](docs/ARTIFACT.md): environment files, smoke checks, data boundaries, and paper-scale entry points.
 
-## Artifact Checklist
+## Reproducibility Notes
 
-- **Code release.** Core implementations, configuration files, and reproduction entry points are versioned in this repository.
-- **Reproducibility.** Start with the smoke or quick-start path before paper-scale runs; record the commit hash, Python version, backend/model identifiers, seeds, and command-line arguments.
-- **Data and credentials.** Large datasets, benchmark downloads, generated outputs, and API keys are intentionally excluded. Use the data and configuration notes above to recreate them or point to local copies.
-- **Reporting.** For paper-scale runs, keep raw run folders immutable and regenerate tables or figures from the logged artifacts with the listed analysis scripts.
+- **Release.** Source code, configuration files, and runnable entry points are tracked here.
+- **Runs.** Start with the smoke or quick-start commands before full grids; record commit hash, Python version, model/backend identifiers, seeds, and command-line arguments.
+- **Data.** Large datasets, benchmark downloads, generated outputs, and API keys are not tracked. Use the data/configuration notes above to recreate or point to local copies.
+- **Reporting.** Keep raw run folders fixed for paper-scale runs and regenerate tables or figures from logged artifacts with the listed scripts.
 
 ## Citation
 
