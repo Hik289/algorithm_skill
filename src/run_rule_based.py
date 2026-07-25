@@ -10,7 +10,7 @@ For each (problem, method, backbone) record:
 
 Output: raw_data_v2/results_rule_based/<method>_<backbone>.json
 """
-import argparse, json, os, sys, time, subprocess, traceback, re
+import argparse, json, os, sys, time, subprocess, re
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from llm_client import call_llm_with_usage, BACKBONE_CONFIGS

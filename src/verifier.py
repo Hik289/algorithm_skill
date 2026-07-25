@@ -2,10 +2,7 @@
 Code verifier: execute generated code against test cases with timeout.
 """
 import signal
-import ast
 import re
-import traceback
-from typing import Any, List, Tuple
 
 
 class TimeoutError(Exception):

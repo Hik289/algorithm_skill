@@ -4,10 +4,10 @@ Main system with skill scheduling and MCTS-style search.
 """
 import math
 import random
-from typing import Dict, List, Tuple, Optional
-from llm_client import call_llm_single, call_llm_multi
+from typing import List, Optional
+from llm_client import call_llm_single
 from skills import SKILL_PROMPTS, ALL_SKILLS
-from verifier import run_code_with_tests, extract_code
+from verifier import run_code_with_tests
 
 
 # ─────────────────────────────────────────────────────────────────────────────

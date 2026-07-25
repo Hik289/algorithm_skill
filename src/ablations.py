@@ -1,9 +1,7 @@
 """
 Ablation variants of AlgoSkill for systematic evaluation.
 """
-from algoskill import AlgoSkillGreedy, AlgoSkillMCTS, apply_skill, make_initial_state, get_valid_skills, select_skill_llm
-from skills import SKILL_PROMPTS
-from verifier import run_code_with_tests
+from algoskill import apply_skill, make_initial_state, get_valid_skills, select_skill_llm
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -79,7 +77,6 @@ class BeamSearchSkills:
                     new_beams.append(state)
                     continue
                 # Try up to beam_width skills
-                import random
                 skills_to_try = valid[:self.beam_width]
                 for sk in skills_to_try:
                     new_state = apply_skill(sk, state)

@@ -13,10 +13,10 @@ Methodology matches paper §5.9 / tab:rule_bench: "an LLM judge reads the
 generated code, infers its time and space complexities, and compares them
 with the known optimal complexities".
 """
-import argparse, json, os, sys, re, time
+import argparse, json, os, sys, re
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from llm_client import call_llm_with_usage, BACKBONE_CONFIGS
+from llm_client import call_llm_with_usage
 
 
 JUDGE_PROMPT = """You are an algorithmic complexity expert. Read the following

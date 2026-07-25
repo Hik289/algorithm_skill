@@ -7,7 +7,7 @@ Unified Hard Bench multi-sample runner. Methods:
 - reflexion_v3: 5 attempts each with up to 3 refl rounds (pass@5)
 - selfrefine_v3: 5 attempts each with up to 3 refine rounds (pass@5)
 """
-import argparse, json, os, sys, time, random, re
+import argparse, json, os, sys, time, random
 
 # PD = repository root (parent of src/). Override with DATA_DIR env var
 # to point at a different release / data location.

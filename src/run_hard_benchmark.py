@@ -5,7 +5,7 @@ This entry point now uses the provider-agnostic AlgoSkill backend aliases from
 llm_client.py. Configure concrete API providers locally through environment
 variables or ALGOSKILL_BACKEND_CONFIG instead of editing this file.
 """
-import sys, os, json, time, re, subprocess, textwrap, signal
+import sys, os, json, time, re, subprocess
 sys.path.insert(0, os.path.dirname(__file__))
 from llm_client import call_llm_with_usage
 
@@ -396,7 +396,7 @@ def run_algoskill(prob, llm_fn, n_traj=10, seed=42):
         seqs.append(rng.choice(SEQS))
 
     tok = {"prompt_tokens":0,"completion_tokens":0,"total_tokens":0}
-    best_passed = 0; best_code = None; p1 = pk = False
+    best_passed = 0; p1 = pk = False
 
     ctx = f"Problem: {prob['name']}\n{prob['description']}\nConstraints: {prob['constraints']}"
 
@@ -409,7 +409,7 @@ def run_algoskill(prob, llm_fn, n_traj=10, seed=42):
                 txt, t = llm_fn(sp)
                 for k in tok: tok[k] += t.get(k,0)
                 notes.append(f"[{skill}]: {txt[:300]}")
-            except Exception as e:
+            except Exception:
                 pass
 
         fp = FINAL_T.format(name=prob["name"], desc=prob["description"],
@@ -442,15 +442,13 @@ def run_algoskill(prob, llm_fn, n_traj=10, seed=42):
                 except: pass
 
             if psd > best_passed:
-                best_passed, best_code = psd, code
+                best_passed = psd
             if ok:
                 pk = True
                 if ti == 0: p1 = True
 
-    # pass@1 = first trajectory passes all; pass@k = any trajectory passes
-    pass_at_1 = best_passed == len(prob["tests"]) and len(prob["tests"]) > 0
-    # (use first-trajectory result for pass@1 properly)
-    return {"pass_at_1": pass_at_1, "pass_at_k": pk,
+    # pass@1 is the first trajectory; pass@k is any sampled trajectory.
+    return {"pass_at_1": p1, "pass_at_k": pk,
             "best_passed": best_passed, "total_tests": len(prob["tests"]),
             "total_tokens": tok}
 

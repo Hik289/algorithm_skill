@@ -22,15 +22,10 @@ Key design changes vs v3:
 - Reference solver implemented in Python; tests = 5 per problem, including
   one large stress test to force O(N²)→TLE separation
 """
-import argparse
-import bisect
-import heapq
 import json
-import math
 import random
 import sys
-from collections import defaultdict, deque
-from typing import List, Tuple, Dict
+from collections import defaultdict
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -388,25 +383,25 @@ def fam_two_sat(idx, tier, rng):
         adj[var_idx(neg(b))].append(var_idx(a))
     # Tarjan SCC
     sys.setrecursionlimit(2 * N + 1000)
-    idx_cnt = [0]; idx = [-1] * N; low = [0] * N
+    idx_cnt = [0]; discovery = [-1] * N; low = [0] * N
     on_stack = [False] * N; stack = []
     comp = [-1] * N; comp_cnt = [0]
     def tarjan(start):
         work = [(start, iter(adj[start]))]
-        idx[start] = idx_cnt[0]; low[start] = idx_cnt[0]; idx_cnt[0] += 1
+        discovery[start] = idx_cnt[0]; low[start] = idx_cnt[0]; idx_cnt[0] += 1
         stack.append(start); on_stack[start] = True
         while work:
             node, it = work[-1]
             try:
                 w = next(it)
-                if idx[w] == -1:
-                    idx[w] = idx_cnt[0]; low[w] = idx_cnt[0]; idx_cnt[0] += 1
+                if discovery[w] == -1:
+                    discovery[w] = idx_cnt[0]; low[w] = idx_cnt[0]; idx_cnt[0] += 1
                     stack.append(w); on_stack[w] = True
                     work.append((w, iter(adj[w])))
                 elif on_stack[w]:
-                    low[node] = min(low[node], idx[w])
+                    low[node] = min(low[node], discovery[w])
             except StopIteration:
-                if low[node] == idx[node]:
+                if low[node] == discovery[node]:
                     while True:
                         w = stack.pop(); on_stack[w] = False
                         comp[w] = comp_cnt[0]
@@ -416,7 +411,7 @@ def fam_two_sat(idx, tier, rng):
                 if work:
                     p = work[-1][0]; low[p] = min(low[p], low[node])
     for v in range(N):
-        if idx[v] == -1:
+        if discovery[v] == -1:
             tarjan(v)
     # Satisfiable iff no var has its x and ¬x in the same SCC
     satisfiable = all(comp[2 * v] != comp[2 * v + 1] for v in range(n_vars))
@@ -650,20 +645,25 @@ def fam_palindrome(idx, tier, rng):
 # ─────────────────────────────────────────────────────────────────────────────
 FAMILIES = [
     fam_kth_in_range, fam_segtree_lazy, fam_scc_count, fam_mo_distinct,
-    fam_tree_lca, fam_lcs_string, fam_cht_min, fam_two_sat, fam_sos_dp,
+    fam_tree_lca, fam_lcs_string, fam_cht_min, fam_sos_dp,
     fam_rmq_sparse, fam_bipartite_match, fam_paths_count, fam_palindrome,
 ]
 
 
 def build_corpus(seed=42):
-    rng = random.Random(seed)
     out = []
-    # 13 families × ~16 variants = ~200 problems
+    # 12 released families × 16 variants = 192 problems.
     # Per family: 6 easy + 6 medium + 4 hard
     for fam_idx, fn in enumerate(FAMILIES):
-        for tier, n_per in [("easy", 6), ("medium", 6), ("hard", 4)]:
+        for tier_idx, (tier, n_per) in enumerate(
+            [("easy", 6), ("medium", 6), ("hard", 4)]
+        ):
             for idx in range(n_per):
-                local_rng = random.Random(hash((fam_idx, tier, idx, seed)) & 0xFFFFFFFF)
+                # Avoid Python's salted hash(), which changes across processes.
+                local_seed = (
+                    ((seed * 31 + fam_idx) * 31 + tier_idx) * 31 + idx
+                ) & 0xFFFFFFFF
+                local_rng = random.Random(local_seed)
                 try:
                     out.append(fn(idx, tier, local_rng))
                 except Exception as e:

@@ -251,7 +251,7 @@ def run_one(prob, method, backbone, temperature=0.5, max_rounds=3):
                 out = call_llm_with_usage(reflect_prompt, backbone=backbone,
                                           temperature=temperature,
                                           max_tokens=8000)
-            except Exception as e:
+            except Exception:
                 break
             for k in tok_total: tok_total[k] += out["tokens"].get(k, 0)
             code = extract_code(out["text"])
