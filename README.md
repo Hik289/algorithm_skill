@@ -14,11 +14,15 @@ The repository includes the AlgoSkill framework, Direct and chain-of-thought (Co
   <img src="assets/algoskill_intuition.png" width="95%" alt="AlgoSkill intuition: one-shot generation versus explicit algorithmic skill scheduling">
 </p>
 
-## Repository Summary
+## At A Glance
 
-- **Scope.** Can algorithm design be improved by scheduling reusable, human-like problem-solving skills?
-- **Method.** AlgoSkill searches over typed algorithmic skill trajectories with greedy, MCTS, and verification-based variants.
-- **Contents.** Benchmark data, direct and CoT baselines, skill schedulers, execution checks, repair, and T/S-optimality judging.
+| Artifact review question | Entry point |
+| --- | --- |
+| Research question | Can algorithm design be improved by scheduling reusable, human-like problem-solving skills? |
+| Core method | AlgoSkill searches over typed algorithmic skill trajectories with greedy, MCTS, and verification-based variants. |
+| Included artifacts | Benchmark data, direct and CoT baselines, skill schedulers, execution checks, repair, and T/S-optimality judging. |
+| Fast validation | `python src/run_rule_based.py --help` or the small direct-generation command below. |
+| Paper-scale reproduction | `bash scripts/reproduce_v4.sh`, `bash scripts/reproduce_hardbench.sh`, and post-cutoff scripts where data is available. |
 
 ## Method Overview
 
