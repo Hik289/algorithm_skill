@@ -1,14 +1,4 @@
 #!/usr/bin/env bash
-# Reproduce paper Table 3 (Hard Bench, 15 problems, pass@5).
-# Runs Direct + CoT + AlgoSkill-Greedy + AlgoSkill-MCTS on selected backbones,
-# then runs the T-opt + S-opt judge on each result.
-#
-# Configure concrete API providers locally through ALGOSKILL_* environment
-# variables or ALGOSKILL_BACKEND_CONFIG. This script only refers to generic
-# backend aliases.
-#
-# Note: AlgoSkill-MCTS can be expensive on high-latency reasoning backends.
-# This script runs MCTS only on the affordable backend group by default.
 
 set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -71,14 +61,6 @@ for bb in "${BACKBONES_CHEAP[@]}"; do
   run_one algoskill_v3 "$bb"
 done
 
-# High-latency backends: paper documents these as N/A on HB.
-# Uncomment the loop below if you want to reproduce the kills:
-# for bb in "${BACKBONES_EXPENSIVE[@]}"; do
-#   echo "[$bb] running algoskill_v3 with --n_traj 3 (may hang on H01)"
-#   python src/run_hard_v3_unified.py \
-#     --method algoskill_v3 --backbone "$bb" --n_traj 3 \
-#     --out "$RESULTS_DIR/algoskill_v3_${bb}.json"
-# done
 
 # ── 3) T-opt + S-opt judge ──────────────────────────────────────────────────
 for bb in "${BACKBONES_CHEAP[@]}" "${BACKBONES_EXPENSIVE[@]}"; do

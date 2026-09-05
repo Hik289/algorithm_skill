@@ -60,19 +60,6 @@ def main():
                 print(f"  {prob['id']} sample={s} ERROR: {e}", flush=True)
                 continue
             elapsed = time.time() - t0
-            # solve() returns dict with code/verify_result/reward. We need
-            # to access the root node's skill_history via the state - but
-            # solve() returns best result, not the full trajectory. We need
-            # to instrument AlgoSkillMCTS to also return the chosen path's
-            # skill_history. Use what's available: the FINAL state's
-            # skill_history if accessible via the solver's best path. As a
-            # workaround, re-extract from the search tree by storing
-            # skill_history in returned dict.
-            #
-            # NOTE: solve() in algoskill.py does NOT currently return
-            # skill_history. We patched it in this task by adding the
-            # following lines to AlgoSkillMCTS.solve() return:
-            #     "skill_history": best_state.get("skill_history", []),
             sh = out.get("skill_history", [])
             data["trajectories"].append({
                 "problem_id": prob["id"],
