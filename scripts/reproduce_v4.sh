@@ -1,9 +1,4 @@
 #!/usr/bin/env bash
-# Reproduce paper Tables 2 + 5 (v4-192 correctness + T-opt + S-opt).
-#
-# Configure concrete API providers locally through ALGOSKILL_* environment
-# variables or ALGOSKILL_BACKEND_CONFIG. This script only refers to generic
-# backend aliases.
 
 set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

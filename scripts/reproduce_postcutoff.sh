@@ -1,10 +1,4 @@
 #!/usr/bin/env bash
-# Reproduce paper Table 6 / §5.5 distribution shift.
-#
-# Prereq: you must first rebuild the post-cutoff corpus into
-#   data/post_cutoff_v3_corpus.json
-# from the public AtCoder problem pages (see README for the schema).
-# We do not ship the corpus to avoid redistributing AtCoder problem text.
 
 set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
