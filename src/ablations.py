@@ -102,10 +102,6 @@ class MCTSNoPolicy:
         self.budget = budget
 
     def solve(self, problem: dict) -> dict:
-        # BUGFIX 2026-05-28: relied on compute_reward's
-        # in-place propagation fix in algoskill.py to make
-        # child.state.get("code") return non-empty after compute_reward.
-        # Also now captures best_vr (was hardcoded None previously).
         import random
         from algoskill import MCTSNode, compute_reward
         root = MCTSNode(make_initial_state(problem))

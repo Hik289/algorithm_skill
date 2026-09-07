@@ -28,10 +28,6 @@ import sys
 from collections import defaultdict
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Common: a hard "find k-th smallest in range" — needs persistent segment tree
-# or wavelet tree; brute O(NQ log N) instead of O(N log² N)
-# ─────────────────────────────────────────────────────────────────────────────
 def fam_kth_in_range(idx, tier, rng):
     if tier == "easy":   n, q = rng.randint(20, 50), rng.randint(5, 10)
     elif tier == "medium": n, q = rng.randint(500, 1000), rng.randint(30, 80)
@@ -69,10 +65,6 @@ def fam_kth_in_range(idx, tier, rng):
     }
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Segment tree range add + range max — adversarial: many updates intersperse
-# many queries, brute O(N*Q) TLEs for hard tier
-# ─────────────────────────────────────────────────────────────────────────────
 def fam_segtree_lazy(idx, tier, rng):
     if tier == "easy":   n, q = rng.randint(20, 80), rng.randint(10, 30)
     elif tier == "medium": n, q = rng.randint(1000, 3000), rng.randint(500, 1000)
@@ -120,10 +112,6 @@ def fam_segtree_lazy(idx, tier, rng):
     }
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Strongly Connected Components — Tarjan/Kosaraju
-# Naive Floyd-Warshall transitive closure O(N^3) TLEs at N=1000+
-# ─────────────────────────────────────────────────────────────────────────────
 def fam_scc_count(idx, tier, rng):
     if tier == "easy":   n, m = rng.randint(5, 15), rng.randint(8, 25)
     elif tier == "medium": n, m = rng.randint(200, 500), rng.randint(400, 1500)
@@ -197,10 +185,6 @@ def fam_scc_count(idx, tier, rng):
     }
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Mo's algorithm — count distinct elements in range, offline
-# Naive O(N*Q) TLEs; Mo gives O((N+Q) sqrt(N))
-# ─────────────────────────────────────────────────────────────────────────────
 def fam_mo_distinct(idx, tier, rng):
     if tier == "easy":   n, q = rng.randint(10, 30), rng.randint(5, 15)
     elif tier == "medium": n, q = rng.randint(500, 1500), rng.randint(200, 500)
@@ -275,10 +259,6 @@ def fam_tree_lca(idx, tier, rng):
     }
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Suffix array longest common substring of two strings — naive O(N²) TLEs
-# Optimal: suffix automaton or SA+LCP
-# ─────────────────────────────────────────────────────────────────────────────
 def fam_lcs_string(idx, tier, rng):
     if tier == "easy":    n = rng.randint(8, 20)
     elif tier == "medium": n = rng.randint(200, 800)
@@ -321,10 +301,6 @@ def fam_lcs_string(idx, tier, rng):
     }
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Convex hull trick — minimum of N lines at query points
-# Naive O(N*Q) TLEs; CHT gives O((N+Q) log N) or O(N+Q) if sorted
-# ─────────────────────────────────────────────────────────────────────────────
 def fam_cht_min(idx, tier, rng):
     if tier == "easy":    n, q = rng.randint(5, 15), rng.randint(5, 15)
     elif tier == "medium": n, q = rng.randint(200, 800), rng.randint(200, 800)
@@ -437,10 +413,6 @@ def fam_two_sat(idx, tier, rng):
     }
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Sum-Over-Subsets (SOS) DP — count subsets satisfying superset condition
-# Naive O(3^n); SOS-DP gives O(n * 2^n)
-# ─────────────────────────────────────────────────────────────────────────────
 def fam_sos_dp(idx, tier, rng):
     if tier == "easy":    bits = rng.randint(3, 6)
     elif tier == "medium": bits = rng.randint(8, 12)
@@ -557,10 +529,6 @@ def fam_bipartite_match(idx, tier, rng):
     }
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Centroid decomposition: count paths with weight <= K
-# Naive O(N²) TLEs at hard
-# ─────────────────────────────────────────────────────────────────────────────
 def fam_paths_count(idx, tier, rng):
     if tier == "easy":    n = rng.randint(5, 15); K = rng.randint(5, 20)
     elif tier == "medium": n = rng.randint(300, 800); K = rng.randint(100, 500)
@@ -607,10 +575,6 @@ def fam_paths_count(idx, tier, rng):
     }
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Manacher's: longest palindromic substring
-# Naive O(N²) for each center expansion TLEs at hard
-# ─────────────────────────────────────────────────────────────────────────────
 def fam_palindrome(idx, tier, rng):
     if tier == "easy":    n = rng.randint(10, 30)
     elif tier == "medium": n = rng.randint(300, 1000)
